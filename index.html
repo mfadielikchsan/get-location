@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Ambil Lokasi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body{
+        font-family: Arial, sans-serif;
+        padding:40px;
+        background:#f5f5f5;
+    }
+    .card{
+        max-width:400px;
+        margin:auto;
+        background:white;
+        padding:20px;
+        border-radius:10px;
+        box-shadow:0 5px 15px rgba(0,0,0,.1);
+    }
+    input{
+        width:100%;
+        padding:10px;
+        margin-top:10px;
+        border:1px solid #ddd;
+        border-radius:6px;
+    }
+    button{
+        width:100%;
+        margin-top:15px;
+        padding:12px;
+        border:none;
+        background:#007bff;
+        color:white;
+        border-radius:6px;
+        cursor:pointer;
+        font-size:16px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h3>Ambil Lokasi User</h3>
+
+    <label>Latitude</label>
+    <input type="text" id="lat" readonly>
+
+    <label>Longitude</label>
+    <input type="text" id="lng" readonly>
+
+    <button onclick="getLocation()">Ambil Lokasi</button>
+</div>
+
+<script>
+function getLocation(){
+
+    if(!navigator.geolocation){
+        alert("Browser tidak support geolocation");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function(position){
+            document.getElementById("lat").value = position.coords.latitude;
+            document.getElementById("lng").value = position.coords.longitude;
+        },
+        function(error){
+            alert("Gagal ambil lokasi: " + error.message);
+        },
+        {
+            enableHighAccuracy:true,
+            timeout:10000,
+            maximumAge:0
+        }
+    );
+}
+</script>
+
+</body>
+</html>
