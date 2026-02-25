@@ -55,11 +55,21 @@
 </div>
 
 <script>
-function getLocation(){
+async function getLocation(){
 
     if(!navigator.geolocation){
         alert("Browser tidak support geolocation");
         return;
+    }
+
+    // cek permission dulu
+    if(navigator.permissions){
+        const permission = await navigator.permissions.query({name:'geolocation'});
+
+        if(permission.state === 'denied'){
+            alert("Lokasi sudah diblokir.\nSilakan enable manual di browser (klik icon gembok di address bar).");
+            return;
+        }
     }
 
     navigator.geolocation.getCurrentPosition(
@@ -69,11 +79,6 @@ function getLocation(){
         },
         function(error){
             alert("Gagal ambil lokasi: " + error.message);
-        },
-        {
-            enableHighAccuracy:true,
-            timeout:10000,
-            maximumAge:0
         }
     );
 }
